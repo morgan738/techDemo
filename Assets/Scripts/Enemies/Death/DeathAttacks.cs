@@ -21,7 +21,7 @@ public class DeathAttacks : MonoBehaviour
     private float minAttackDistance = 7f;
     private float rangedAttackDistance = 10f;
     float distanceToPlayer; 
-    float attackTime = 5f;
+    float attackTime = 2f;
     float rangeAttackTime = 2f;
     public static int deathMeleeDamage = 30;
     int deathMeleeID;
@@ -32,7 +32,7 @@ public class DeathAttacks : MonoBehaviour
     private Vector3 enemyDir;
     public GameObject magicArm;
     [HideInInspector]public float attackDelay;
-
+    [HideInInspector]public float timerForNextMelee;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +48,8 @@ public class DeathAttacks : MonoBehaviour
 
        //as attacks are being spammed if player is in range, want to implement some pause between attacks
        //not yet implemented though
-       attackDelay = 2f;
+       attackDelay = 100f;
+       timerForNextMelee = attackDelay;
     }
 
     // Update is called once per frame
@@ -63,7 +64,11 @@ public class DeathAttacks : MonoBehaviour
         //////////////ATTACK CONDITION CHECKS////////////////////
         //first check melee condition. if player is within melee distance start melee coroutine
         //if the player is behind enemy has no LOS. will not attack. I want to change this eventually but for now its this
+        
+
         if(distanceToPlayer < minAttackDistance && player != null){
+
+     
             
             if(!isBehind() && !crRunning){
 
@@ -95,7 +100,11 @@ public class DeathAttacks : MonoBehaviour
             anim.SetLayerWeight(2, 0f);
             deathAttacking = false;
         }
+       
         
+        
+
+
             
         //check to see if attack collider has hit anything in the player layer.
         //if the array has an element, player has been hit, playhit flag set to true. damage calculation handled elsewhere
@@ -120,17 +129,24 @@ public class DeathAttacks : MonoBehaviour
     //simply starts melee animation
     private IEnumerator MeleeAttack(){
 
+
+
         deathAttacking = true;
         crRunning = true;
         deathMeleeID = Random.Range(0,int.MaxValue);
+        //anim.SetBool("meleeAttack", true);
+        anim.Play("melee", 2, 0);
         anim.SetBool("isWalking", false);
         anim.SetLayerWeight(1, 0f);
         anim.SetLayerWeight(2, 1f);
         /* anim.SetBool("meleeAttack", true);
         anim.SetBool("isAttacking", true); */
         attackCollider.enabled = true;
-        
+      
         yield return new WaitForSeconds(attackTime);
+
+        
+
 
 
 
@@ -153,6 +169,8 @@ public class DeathAttacks : MonoBehaviour
         deathMeleeID = Random.Range(0,int.MaxValue);
         Vector3 playerPos = player.transform.position;
         playerPos.y += 1.2f;
+
+        anim.Play("rangedAttack", 1, 0);
         anim.SetBool("isWalking", false);
         anim.SetLayerWeight(2, 0f);
         anim.SetLayerWeight(1, 1f);
@@ -169,7 +187,7 @@ public class DeathAttacks : MonoBehaviour
 
         yield return new WaitForSeconds(rangeAttackTime);
         crRunning = false;
-        //anim.SetBool("rangedAttack", false);
+        anim.SetBool("rangedAttack", false);
         //anim.SetLayerWeight(1, 0f);
         //anim.SetBool("isWalking", true);
         //anim.SetBool("isAttacking", false);
@@ -190,5 +208,19 @@ public class DeathAttacks : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void attackPause(){
+        if(timerForNextMelee > 0){
+        
+            timerForNextMelee -=timerForNextMelee;
+            Debug.Log(timerForNextMelee);
+
+        }else if(timerForNextMelee <= 0){
+            Debug.Log("event");
+            anim.SetLayerWeight(1, 0f);
+            anim.SetLayerWeight(2, 0f);
+            timerForNextMelee = attackDelay;
+        }
     }
 }

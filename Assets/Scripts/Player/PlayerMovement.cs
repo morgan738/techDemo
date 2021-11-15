@@ -77,6 +77,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp("space"))
         {
             anim.SetBool("isSliding", false);
+            Physics2D.IgnoreLayerCollision(9, 10, false);
+            Physics2D.IgnoreLayerCollision(9, 11, false);
         }
 
 
@@ -124,11 +126,16 @@ public class PlayerMovement : MonoBehaviour
             {
 
                 rigidbody2D.velocity = Vector2.right * slideVelocity;
+                Physics2D.IgnoreLayerCollision(9, 10, true);
+                Physics2D.IgnoreLayerCollision(9, 11, true);
 
             }
             else if (!facingRight)
             {
                 rigidbody2D.velocity = Vector2.left * slideVelocity;
+                Physics2D.IgnoreLayerCollision(9, 10, true);
+                Physics2D.IgnoreLayerCollision(9, 11, true);
+
 
             }
 

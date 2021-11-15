@@ -187,7 +187,7 @@ public class DeathAttacks : MonoBehaviour
 
         yield return new WaitForSeconds(rangeAttackTime);
         crRunning = false;
-        anim.SetBool("rangedAttack", false);
+        //anim.SetBool("rangedAttack", false);
         //anim.SetLayerWeight(1, 0f);
         //anim.SetBool("isWalking", true);
         //anim.SetBool("isAttacking", false);

@@ -832,7 +832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6543138080575405994, guid: 634919501e51a8a4d954952ee929cc92, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6543138080575405994, guid: 634919501e51a8a4d954952ee929cc92, type: 3}
       propertyPath: invulDuration

@@ -54,15 +54,20 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Enables crouching if player is grounded
-        if ((isGrounded() && Input.GetKeyDown(KeyCode.S)) || (isGrounded() && Input.GetKeyDown(KeyCode.DownArrow)))
+        if ((isGrounded() && Input.GetKey(KeyCode.S)) || (isGrounded() && Input.GetKey(KeyCode.DownArrow)))
         {
+            anim.SetLayerWeight(1, 0f);
             anim.SetBool("isCrouching", true);
+            anim.SetBool("isRunning", false);
+            rigidbody2D.velocity = Vector2.zero;
 
         }
 
         if ((isGrounded() && Input.GetKeyUp(KeyCode.S)) || (isGrounded() && Input.GetKeyUp(KeyCode.DownArrow)))
         {
             anim.SetBool("isCrouching", false);
+
+
         }
 
         if (anim.GetBool("isCrouching") == true && Input.GetKeyDown("space"))
@@ -98,7 +103,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //moves the character based on speed and velocity
-        rigidbody2D.velocity = new Vector2(moveDirection * moveSpeed, rigidbody2D.velocity.y);
+        if (anim.GetBool("isRunning") == true)
+        {
+
+            rigidbody2D.velocity = new Vector2(moveDirection * moveSpeed, rigidbody2D.velocity.y);
+        }
         if (!isGrounded())
         {
             moveSpeed = 0f;
@@ -107,6 +116,14 @@ public class PlayerMovement : MonoBehaviour
         if (moveDirection != 0)
         {
             anim.SetBool("isRunning", true);
+            if ((isGrounded() && Input.GetKey(KeyCode.S)) || (isGrounded() && Input.GetKey(KeyCode.DownArrow)))
+            {
+                anim.SetLayerWeight(1, 0f);
+                anim.SetBool("isCrouching", true);
+                anim.SetBool("isRunning", false);
+                rigidbody2D.velocity = Vector2.zero;
+
+            }
         }
         else
         {
@@ -121,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         if (anim.GetBool("isSliding") == true && isGrounded())
         {
 
-            float slideVelocity = 8f;
+            float slideVelocity = 15f;
             if (facingRight)
             {
 
@@ -149,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //return true if player is touching the ground
-    private bool isGrounded()
+    public bool isGrounded()
     {
 
 

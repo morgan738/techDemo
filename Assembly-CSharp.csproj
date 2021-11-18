@@ -65,6 +65,10 @@
     <Compile Include="Assets\Scripts\Enemies\Death\DeathAttacks.cs" />
     <Compile Include="Assets\Scripts\Enemies\EnemyHealthManager.cs" />
     <Compile Include="Assets\Scripts\Enemies\Death\DeathMagic.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\AirComboTransBehaviour1.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\AirComboTransBehaviour2.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\AirIdleBehaniour.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\AirComboTrans2Behaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Images\Enemy\Bringer-Of-Death\License.txt" />

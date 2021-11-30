@@ -18,6 +18,13 @@ public class PlayerMovement : MonoBehaviour
     private bool facingRight = true;
     private float moveDirection;
     Animator anim;
+
+    public float recoilDistance;
+    public float recoilTime;
+    public float recoilCoolDown;
+    public bool recoilRight;
+
+    private PlayerHealthManager playerHealthManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody2D = transform.GetComponent<Rigidbody2D>();
         boxCollider2D = transform.GetComponent<BoxCollider2D>();
+        playerHealthManager = GetComponent<PlayerHealthManager>();
     }
 
     // Update is called once per frame
@@ -75,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
 
             Debug.Log("slide");
             anim.SetBool("isSliding", true);
+
             //transform.position += transform.forward * Time.deltaTime * moveSpeed;
 
         }
@@ -82,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp("space"))
         {
             anim.SetBool("isSliding", false);
+            //anim.SetBool("isCrouching", false);
             Physics2D.IgnoreLayerCollision(9, 10, false);
             Physics2D.IgnoreLayerCollision(9, 11, false);
         }
@@ -103,11 +113,24 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //moves the character based on speed and velocity
-        if (anim.GetBool("isRunning") == true)
+        if (anim.GetBool("isRunning") == true && recoilCoolDown <= 0 && anim.GetBool("isHurt") == false)
         {
 
             rigidbody2D.velocity = new Vector2(moveDirection * moveSpeed, rigidbody2D.velocity.y);
         }
+        else if (recoilCoolDown > 0)
+        {
+            if (!recoilRight)
+            {
+                rigidbody2D.velocity = new Vector2(-recoilDistance, recoilDistance);
+            }
+            if (recoilRight)
+            {
+                rigidbody2D.velocity = new Vector2(recoilDistance, recoilDistance);
+            }
+            recoilCoolDown -= Time.deltaTime;
+        }
+
         if (!isGrounded())
         {
             moveSpeed = 0f;
@@ -141,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
             float slideVelocity = 15f;
             if (facingRight)
             {
-
+                anim.SetBool("isCrouching", false);
                 rigidbody2D.velocity = Vector2.right * slideVelocity;
                 Physics2D.IgnoreLayerCollision(9, 10, true);
                 Physics2D.IgnoreLayerCollision(9, 11, true);
@@ -149,6 +172,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (!facingRight)
             {
+                anim.SetBool("isCrouching", false);
                 rigidbody2D.velocity = Vector2.left * slideVelocity;
                 Physics2D.IgnoreLayerCollision(9, 10, true);
                 Physics2D.IgnoreLayerCollision(9, 11, true);
@@ -161,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
             //rigidbody2D.MovePosition(transform.forward * moveSpeed);
 
         }
-        //boxCollider2D.enabled = true;
+
 
     }
 
@@ -183,6 +207,26 @@ public class PlayerMovement : MonoBehaviour
         {
             facingRight = !facingRight;
             transform.Rotate(0f, 180f, 0f);
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.layer == 10)
+        {
+            Debug.Log("hit enemy");
+            playerHealthManager.LoseHealth(25);
+            recoilCoolDown = recoilTime;
+            if (col.transform.position.x < transform.position.x)
+            {
+                recoilRight = true;
+
+            }
+            else if (col.transform.position.x > transform.position.x)
+            {
+                recoilRight = false;
+            }
+
         }
     }
 }

@@ -28,7 +28,7 @@ public class CombatManager : MonoBehaviour
     public static int swordDamage = 25;
 
     private PlayerMovement playerMovement;
-    private Rigidbody2D rigidbody2D;
+    new private Rigidbody2D rigidbody2D;
 
 
     private void Awake()
@@ -188,15 +188,6 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    /*     public void AirAttackLoop()
-        {
-            if (!playerMovement.isGrounded())
-            {
-                anim.Play("AirAttack3", 0, .5f);
-                Debug.Log("loop");
-            }
-
-        } */
 
     public void AirAttackLoop()
     {
@@ -205,7 +196,7 @@ public class CombatManager : MonoBehaviour
             anim.SetBool("plunging", true);
             rigidbody2D.drag = 0;
             rigidbody2D.gravityScale = 50;
-            Debug.Log(playerMovement.isGrounded());
+
 
         }
 
@@ -216,7 +207,7 @@ public class CombatManager : MonoBehaviour
         if (playerMovement.isGrounded())
         {
             anim.SetBool("plunging", false);
-            Debug.Log("grounded" + playerMovement.isGrounded());
+
         }
     }
     //allows for combo transitions

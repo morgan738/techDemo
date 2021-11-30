@@ -19,9 +19,12 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private float invulDuration;
     [SerializeField] private float invulDeltaTime;
     private bool isInvul = false;
-    [HideInInspector]public bool playerHit = false;
-    [HideInInspector]public int playerHitID;
-    
+    [HideInInspector] public bool playerHit = false;
+    [HideInInspector] public int playerHitID;
+
+    private PlayerMovement playerMovement;
+
+
 
 
     // Start is called before the first frame update
@@ -31,14 +34,16 @@ public class PlayerHealthManager : MonoBehaviour
         anim = GetComponent<Animator>();
         rigidbody2D = transform.GetComponent<Rigidbody2D>();
         playerDead = false;
-        
+        playerMovement = GetComponent<PlayerMovement>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         //check to see if player is dead. if true, mark as dead and play death animation
-        if(isDead() && gameObject != null){
+        if (isDead() && gameObject != null)
+        {
             playerDead = true;
             anim.SetBool("isDead", true);
             rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
@@ -46,7 +51,8 @@ public class PlayerHealthManager : MonoBehaviour
 
         //if playerHit flag is set to true, player loses health
         //so far its a fixed -25 but will change to enemy damage values
-        if(playerHit && !isInvul){
+        if (playerHit && !isInvul)
+        {
             LoseHealth(25);
         }
 
@@ -55,23 +61,28 @@ public class PlayerHealthManager : MonoBehaviour
     }
 
     //checks to see if player health is <= 0. if true, player is dead
-    private bool isDead(){
+    private bool isDead()
+    {
         return currentPlayerHealth <= 0;
     }
 
     //invul frame coroutine
-    private IEnumerator HitIFrame(){
+    private IEnumerator HitIFrame()
+    {
         isInvul = true;
-        
-
-        for(float i = 0; i < invulDuration; i+= invulDeltaTime){
 
 
-            if(isInvul){
+        for (float i = 0; i < invulDuration; i += invulDeltaTime)
+        {
+
+
+            /* if (isInvul)
+            {
                 hitVisual();
                 //pushBackTween();
 
-            }
+            } */
+            hitVisual();
 
             yield return new WaitForSeconds(invulDeltaTime);
         }
@@ -84,21 +95,25 @@ public class PlayerHealthManager : MonoBehaviour
         Debug.Log("notInvul");
     }
 
-    void TriggerIFrame(){
-        if(!isInvul){
+    /* void TriggerIFrame()
+    {
+        if (!isInvul)
+        {
             StartCoroutine(HitIFrame());
         }
     }
-
+ */
     //subtracts damage from currenthealth then starts the invul coroutine
-    public void LoseHealth(int damage){
-        if(isInvul){
+    public void LoseHealth(int damage)
+    {
+        if (isInvul)
+        {
             return;
         }
         currentPlayerHealth -= damage;
         Debug.Log("damage taken");
         Debug.Log(currentPlayerHealth);
-        
+
 
         StartCoroutine(HitIFrame());
 
@@ -106,22 +121,17 @@ public class PlayerHealthManager : MonoBehaviour
 
     //plays the hurt animation and intends to adds force for recoil
     //doesnt really work as intended, needs some work
-    private void hitVisual(){
+    public void hitVisual()
+    {
+        anim.SetLayerWeight(1, 0f);
+        anim.SetLayerWeight(2, 0f);
         anim.SetBool("isHurt", true);
-        //rigidbody2D.AddForce(transform.forward * 200,ForceMode2D.Impulse);
-        StopMovement();
-        rigidbody2D.AddForce(new Vector3(5, 2, 0),ForceMode2D.Impulse);
-        
+
+
+
 
     }
 
-    //might not even need this method to stop movement but i've kept it for now
-    public void StopMovement() {
-         
-        transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        //anim.SetBool("isWalking", false);
-        transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-        transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-             
-    }
+
+
 }

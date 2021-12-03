@@ -53,11 +53,15 @@
     <UnityVersion>2020.3.16f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Behaviours\AirComboTrans2Behaviour.cs" />
     <Compile Include="Assets\Scripts\Behaviours\IdleBehaviour.cs" />
     <Compile Include="Assets\Scripts\Behaviours\ComboTrans2Behaviour.cs" />
     <Compile Include="Assets\Scripts\GameFlow\SceneController.cs" />
     <Compile Include="Assets\Scripts\Player\CombatManager.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\AirComboTransBehaviour1.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\AirIdleBehaniour.cs" />
     <Compile Include="Assets\Scripts\Enemies\EnemyAIMovement.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\AirComboTransBehaviour2.cs" />
     <Compile Include="Assets\Scripts\Behaviours\ComboTrans1Behaviour.cs" />
     <Compile Include="Assets\Scripts\Behaviours\DyingManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerHealthManager.cs" />
@@ -65,10 +69,6 @@
     <Compile Include="Assets\Scripts\Enemies\Death\DeathAttacks.cs" />
     <Compile Include="Assets\Scripts\Enemies\EnemyHealthManager.cs" />
     <Compile Include="Assets\Scripts\Enemies\Death\DeathMagic.cs" />
-    <Compile Include="Assets\Scripts\Behaviours\AirComboTransBehaviour1.cs" />
-    <Compile Include="Assets\Scripts\Behaviours\AirComboTransBehaviour2.cs" />
-    <Compile Include="Assets\Scripts\Behaviours\AirIdleBehaniour.cs" />
-    <Compile Include="Assets\Scripts\Behaviours\AirComboTrans2Behaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Images\Enemy\Bringer-Of-Death\License.txt" />

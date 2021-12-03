@@ -229,4 +229,24 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.layer == 11)
+        {
+            Debug.Log("TOUCHIING");
+            playerHealthManager.LoseHealth(25);
+            recoilCoolDown = recoilTime;
+            if (col.transform.position.x < transform.position.x)
+            {
+                recoilRight = true;
+
+            }
+            else if (col.transform.position.x > transform.position.x)
+            {
+                recoilRight = false;
+            }
+        }
+    }
+
 }

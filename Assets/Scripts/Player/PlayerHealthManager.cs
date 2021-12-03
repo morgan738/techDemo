@@ -127,9 +127,6 @@ public class PlayerHealthManager : MonoBehaviour
         anim.SetLayerWeight(2, 0f);
         anim.SetBool("isHurt", true);
 
-
-
-
     }
 
 

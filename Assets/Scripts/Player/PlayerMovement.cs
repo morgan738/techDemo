@@ -214,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.gameObject.layer == 10)
         {
-            Debug.Log("hit enemy");
+            //Debug.Log("hit enemy");
             playerHealthManager.LoseHealth(25);
             recoilCoolDown = recoilTime;
             if (col.transform.position.x < transform.position.x)
@@ -234,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.gameObject.layer == 11)
         {
-            Debug.Log("TOUCHIING");
+            Debug.Log("TOUCHING");
             playerHealthManager.LoseHealth(25);
             recoilCoolDown = recoilTime;
             if (col.transform.position.x < transform.position.x)

@@ -24,11 +24,20 @@ public class PlayerMovement : MonoBehaviour
     public float recoilCoolDown;
     public bool recoilRight;
 
+    private float slideCoolDown;
+    private bool canSlide;
+    private float slideInvul;
+
+
+
+
     private PlayerHealthManager playerHealthManager;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        slideCoolDown = 0f;
+        canSlide = true;
     }
 
     void Awake()
@@ -44,17 +53,28 @@ public class PlayerMovement : MonoBehaviour
         //Gets input (left, right; a or d. becuase of Horizontal key word)
         moveDirection = Input.GetAxis("Horizontal");
 
+        Debug.Log(rigidbody2D.velocity.y);
+
+
         //checks to see if character is on the gorund. if they are, they have the ability to jump
         //Input.GetKeyDown(KeyCode.Space)
         if ((isGrounded() && Input.GetKeyDown(KeyCode.W)) || (isGrounded() && Input.GetKeyDown(KeyCode.UpArrow)))
         {
             float jumpVelocity = 18f;
             rigidbody2D.velocity = Vector2.up * jumpVelocity;
-            anim.SetBool("isRunning", false);
-            anim.SetBool("isJumping", true);
+            //anim.SetBool("isRunning", false);
+            //anim.SetBool("isJumping", true);
             //Debug.Log(isGrounded());
             //anim.SetTrigger("attack");
 
+        }
+        /* else if (isGrounded())
+        {
+            anim.SetBool("isJumping", false);
+        } */
+        if (!isGrounded())
+        {
+            anim.SetBool("isJumping", true);
         }
         else if (isGrounded())
         {
@@ -80,13 +100,43 @@ public class PlayerMovement : MonoBehaviour
 
         if (anim.GetBool("isCrouching") == true && Input.GetKeyDown("space"))
         {
+            CombatManager.instance.canReceiveInput = false;
 
-            Debug.Log("slide");
-            anim.SetBool("isSliding", true);
+            if (canSlide)
+            {
+
+                slideCoolDown = .4f;
+
+                anim.SetBool("isSliding", true);
+            }
 
             //transform.position += transform.forward * Time.deltaTime * moveSpeed;
 
         }
+        if (slideCoolDown > 0)
+        {
+
+            slideCoolDown -= Time.deltaTime;
+        }
+        else if (slideCoolDown <= 0)
+        {
+            canSlide = true;
+        }
+
+        if (slideInvul > 0)
+        {
+            Debug.Log("SLIDEINVUL" + slideInvul);
+            Physics2D.IgnoreLayerCollision(9, 10, true);
+            Physics2D.IgnoreLayerCollision(9, 11, true);
+            slideInvul -= Time.deltaTime;
+        }
+        else if (slideInvul <= 0)
+        {
+            Physics2D.IgnoreLayerCollision(9, 10, false);
+            Physics2D.IgnoreLayerCollision(9, 11, false);
+
+        }
+
 
         if (Input.GetKeyUp("space"))
         {
@@ -94,6 +144,8 @@ public class PlayerMovement : MonoBehaviour
             //anim.SetBool("isCrouching", false);
             Physics2D.IgnoreLayerCollision(9, 10, false);
             Physics2D.IgnoreLayerCollision(9, 11, false);
+            CombatManager.instance.canReceiveInput = true;
+
         }
 
 
@@ -161,7 +213,8 @@ public class PlayerMovement : MonoBehaviour
         if (anim.GetBool("isSliding") == true && isGrounded())
         {
 
-            float slideVelocity = 15f;
+            float slideVelocity = 10f;
+
             if (facingRight)
             {
                 anim.SetBool("isCrouching", false);
@@ -179,6 +232,8 @@ public class PlayerMovement : MonoBehaviour
 
 
             }
+            //slideCoolDown -= Time.deltaTime;
+
 
 
             //This method can teleport 
@@ -208,6 +263,44 @@ public class PlayerMovement : MonoBehaviour
             facingRight = !facingRight;
             transform.Rotate(0f, 180f, 0f);
         }
+    }
+
+    public void FallLoop()
+    {
+        if (rigidbody2D.velocity.y < 0)
+        {
+            anim.SetBool("isFalling", true);
+        }
+    }
+
+    public void Landed()
+    {
+        if (isGrounded())
+        {
+            anim.SetBool("isFalling", false);
+        }
+    }
+
+
+    public void slidePauseEnd()
+    {
+        Debug.Log("outside");
+        if (canSlide)
+        {
+            Debug.Log("inside");
+            canSlide = false;
+            anim.Rebind();
+
+        }
+
+
+    }
+
+    public void slidePause()
+    {
+        Debug.Log("slide");
+        canSlide = false;
+        slideInvul = .4f;
     }
 
     void OnCollisionEnter2D(Collision2D col)

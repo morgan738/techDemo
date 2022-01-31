@@ -68,7 +68,7 @@ public class CombatManager : MonoBehaviour
         {
             attackCollider.enabled = true;
 
-            PlayerMovement.moveSpeed = .5f;
+            PlayerMovement.moveSpeed = 0f;
             if (anim.GetCurrentAnimatorStateInfo(1).IsName("CombatRun"))
             {
                 anim.GetCurrentAnimatorStateInfo(1).IsName("CombatRun");
@@ -80,7 +80,7 @@ public class CombatManager : MonoBehaviour
 
         //collision check for attacks hitting anything in the enemy layer
         //if array length is > 0 enemy has been hit
-        Bounds attackBounds = attackCollider.bounds;
+        /* Bounds attackBounds = attackCollider.bounds;
         Vector2 center = new Vector2(attackBounds.center.x, attackBounds.center.y);
         Collider2D[] damage = Physics2D.OverlapBoxAll(attackBounds.center, attackBounds.size, 0f, enemy);
 
@@ -102,7 +102,7 @@ public class CombatManager : MonoBehaviour
 
 
 
-        }
+        } */
 
         //allows for transition between combat idle and regular idle
         if (attackTime > 0)
@@ -147,7 +147,7 @@ public class CombatManager : MonoBehaviour
                 anim.SetLayerWeight(2, 0f);
                 isAttacking = true;
                 attackTime = 5;
-                attackID = Random.Range(0, int.MaxValue);
+                //attackID = Random.Range(0, int.MaxValue);
 
 
 
@@ -174,7 +174,7 @@ public class CombatManager : MonoBehaviour
                 anim.SetBool("isAttacking", true);
                 isAttacking = true;
                 attackTime = 5;
-                attackID = Random.Range(0, int.MaxValue);
+                //attackID = Random.Range(0, int.MaxValue);
 
 
 

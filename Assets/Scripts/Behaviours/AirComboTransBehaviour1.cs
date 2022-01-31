@@ -14,7 +14,7 @@ public class AirComboTransBehaviour1 : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (CombatManager.instance.inputReceived)
+        if (CombatManager.instance.inputReceived && DamageManager.instance.aerialHit)
         {
 
             animator.SetTrigger("AirAttack2");
@@ -24,6 +24,7 @@ public class AirComboTransBehaviour1 : StateMachineBehaviour
         else
         {
             animator.SetBool("isAttacking", false);
+            DamageManager.instance.aerialHit = false;
         }
     }
 

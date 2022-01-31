@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class DamageManager : MonoBehaviour
 {
+
+    [HideInInspector] public bool aerialHit;
+    public static DamageManager instance;
+
     // Start is called before the first frame update
     void Start()
     {
+        aerialHit = false;
+    }
 
+    private void Awake()
+    {
+        instance = this;
     }
 
     // Update is called once per frame
@@ -24,6 +33,7 @@ public class DamageManager : MonoBehaviour
 
             EnemyHealthManager enemyHealthManager = col.gameObject.GetComponent<EnemyHealthManager>();
             enemyHealthManager.isHit = true;
+            aerialHit = true;
         }
     }
 }

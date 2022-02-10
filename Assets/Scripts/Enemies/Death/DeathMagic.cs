@@ -11,16 +11,17 @@ Script that controls death-specific attacks. this script is specifically for the
 
 public class DeathMagic : MonoBehaviour
 {
-    public GameObject magicArea;
-    private BoxCollider2D rangeCollider;
-    public LayerMask playerLayer;
-    [HideInInspector] public PlayerHealthManager playerHealth;
+    private BoxCollider2D magicArea;
+
+    private Animator anim;
+
+    private float windUpTime = 10f;
 
     // Start is called before the first frame update
     void Start()
     {
-        rangeCollider = magicArea.GetComponent<BoxCollider2D>();
-        //magicArea.GetComponent<BoxCollider2D>().enabled = false;
+        magicArea = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
 
     }
 
@@ -42,5 +43,16 @@ public class DeathMagic : MonoBehaviour
                     playerHealth = damage[i].gameObject.GetComponent<PlayerHealthManager>();
                     playerHealth.playerHit = true;
                 } */
+    }
+
+    private void windUp()
+    {
+        magicArea.enabled = false;
+
+        if (windUpTime > 0)
+        {
+            anim.SetBool("windUp", true);
+        }
+
     }
 }

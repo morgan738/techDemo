@@ -27,7 +27,8 @@ public class EnemyHealthManager : MonoBehaviour
     private GameObject player;
     private Vector3 enemyDir;
     private EnemyAIMovement enemyAIMovement;
-    
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +38,7 @@ public class EnemyHealthManager : MonoBehaviour
         hitBox = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         rigidbody2D = GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectWithTag ("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         enemyAIMovement = GetComponent<EnemyAIMovement>();
 
     }
@@ -50,32 +51,37 @@ public class EnemyHealthManager : MonoBehaviour
     void Update()
     {
         //if player exists gets the direction of the enemy relative to the player
-        if(player != null){
+        if (player != null)
+        {
 
             enemyDir = (player.transform.position - transform.position).normalized;
-            
-        }
-       
-        //if enemy has been hit and they are not invul, take damage
-        if(isHit && !isInvul){
-            Debug.Log("isHit");
-            
-            
-            LoseHealth(CombatManager.swordDamage);
-        } 
 
-        
-        
+        }
+
+        //if enemy has been hit and they are not invul, take damage
+        if (isHit && !isInvul)
+        {
+            Debug.Log("isHit");
+
+
+            LoseHealth(CombatManager.swordDamage);
+        }
+
+
+
     }
 
     //iframe calcualtions take place here
-    private IEnumerator HitIFrame(){
+    private IEnumerator HitIFrame()
+    {
         isInvul = true;
-        
 
-        for(float i = 0; i < invulDuration; i+= invulDeltaTime){
 
-            if(isInvul){
+        for (float i = 0; i < invulDuration; i += invulDeltaTime)
+        {
+
+            if (isInvul)
+            {
                 hitVisual();
 
 
@@ -93,15 +99,19 @@ public class EnemyHealthManager : MonoBehaviour
     }
 
     //Method to trigger Coroutine to invoke invul state
-    void TriggerIFrame(){
-        if(!isInvul){
+    void TriggerIFrame()
+    {
+        if (!isInvul)
+        {
             StartCoroutine(HitIFrame());
         }
     }
 
     //damage calculations done here
-    public void LoseHealth(int damage){
-        if(isInvul){
+    public void LoseHealth(int damage)
+    {
+        if (isInvul)
+        {
             return;
         }
         currentHealth -= damage;
@@ -109,9 +119,10 @@ public class EnemyHealthManager : MonoBehaviour
 
         //checks if enemy still has health
         //if no health they are dead
-        if(currentHealth <=0){
+        if (currentHealth <= 0)
+        {
             anim.SetBool("isDead", true);
-            
+
             return;
         }
 
@@ -125,42 +136,50 @@ public class EnemyHealthManager : MonoBehaviour
     //play hit animation
     //turn to face player if needed
     //applies force to the enemy so they are pushed back a bit
-    private void hitVisual(){
+    private void hitVisual()
+    {
         anim.SetLayerWeight(1, 0f);
         anim.SetLayerWeight(2, 0f);
-        
+
         anim.SetBool("isHurt", true);
         //rigidbody2D.AddForce(transform.forward * 200,ForceMode2D.Impulse);
         //StopMovement();
         anim.SetBool("isWalking", false);
         facePlayer();
         //enemyAIMovement.patrolPause = 0;
-        if(!enemyAIMovement.facingRight){
-            rigidbody2D.AddForce(new Vector3(5, 2, 0),ForceMode2D.Impulse);
-        }
-        if(enemyAIMovement.facingRight){
-            rigidbody2D.AddForce(new Vector3(-5, 2, 0),ForceMode2D.Impulse);
-        }
-        
+
+        ///////////////////////KNOCKBACK///////////////////////
+        /*  if (!enemyAIMovement.facingRight)
+         {
+             rigidbody2D.AddForce(new Vector3(5, 2, 0), ForceMode2D.Impulse);
+         }
+         if (enemyAIMovement.facingRight)
+         {
+             rigidbody2D.AddForce(new Vector3(-5, 2, 0), ForceMode2D.Impulse);
+         } */
+        ///////////////////////KNOCKBACK///////////////////////
 
     }
 
 
     //Method to attempt to have enemy face the player
-    public void facePlayer(){
+    public void facePlayer()
+    {
 
 
         var projection = Vector3.Dot(enemyDir, transform.right);
-        if(projection < 0 && enemyAIMovement.facingRight){
+        if (projection < 0 && enemyAIMovement.facingRight)
+        {
             Debug.Log("Left");
             enemyAIMovement.Flip();
         }
-        if(projection > 0 && !enemyAIMovement.facingRight){
+        if (projection > 0 && !enemyAIMovement.facingRight)
+        {
             Debug.Log("right");
             enemyAIMovement.Flip();
         }
-        
-        
+
+
     }
 
 

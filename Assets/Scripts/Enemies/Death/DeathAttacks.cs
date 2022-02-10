@@ -192,12 +192,12 @@ public class DeathAttacks : MonoBehaviour
         anim.SetBool("isAttacking", true); */
 
         //spawns the magic arm if there isnt one and destroy it once attack finishes
-        if (!GameObject.FindGameObjectWithTag("MagicArm"))
+        /* if (!GameObject.FindGameObjectWithTag("MagicArm"))
         {
 
             var magicArmClone = Instantiate(magicArm, playerPos, Quaternion.identity);
             Destroy(magicArmClone, rangeAttackTime);
-        }
+        } */
 
 
         yield return new WaitForSeconds(rangeAttackTime);
@@ -244,6 +244,18 @@ public class DeathAttacks : MonoBehaviour
             anim.SetLayerWeight(2, 0f);
             timerForNextMelee = attackDelay;
         }
+    }
+
+    private void spawnArm()
+    {
+        Vector3 playerPos = player.transform.position;
+        playerPos.y += 1.2f;
+        if (!GameObject.FindGameObjectWithTag("MagicArm"))
+        {
+            var magicArmClone = Instantiate(magicArm, playerPos, Quaternion.identity);
+            Destroy(magicArmClone, rangeAttackTime);
+        }
+
     }
 
 }

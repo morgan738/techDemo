@@ -168,7 +168,7 @@ public class CombatManager : MonoBehaviour
         {
             if (canReceiveInput)
             {
-                rigidbody2D.drag = 100;
+                //rigidbody2D.drag = 100;
                 anim.SetLayerWeight(2, 1f);
                 anim.SetLayerWeight(1, 0f);
                 anim.SetBool("isAttacking", true);

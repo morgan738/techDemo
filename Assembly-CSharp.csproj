@@ -69,6 +69,8 @@
     <Compile Include="Assets\Scripts\Enemies\EnemyHealthManager.cs" />
     <Compile Include="Assets\Scripts\Enemies\Death\DeathMagic.cs" />
     <Compile Include="Assets\Scripts\Player\DamageManager.cs" />
+    <Compile Include="Assets\Scripts\Enemies\EnemyFloatMovement.cs" />
+    <Compile Include="Assets\Scripts\Enemies\StoneMech\VisionCheck.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Images\Enemy\Bringer-Of-Death\License.txt" />

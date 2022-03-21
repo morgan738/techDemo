@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         //Gets input (left, right; a or d. becuase of Horizontal key word)
         moveDirection = Input.GetAxis("Horizontal");
 
-        Debug.Log(rigidbody2D.velocity.y);
+
 
 
         //checks to see if character is on the gorund. if they are, they have the ability to jump

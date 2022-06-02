@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 224046917022375746}
   - component: {fileID: 4654604329273008369}
   - component: {fileID: 3232686924367776951}
+  - component: {fileID: 5402327540633634249}
   - component: {fileID: 6280586754819868124}
   - component: {fileID: 7846598191150941732}
   m_Layer: 10
@@ -203,6 +204,29 @@ MonoBehaviour:
   maxHealth: 200
   isHit: 0
   hitID: 0
+--- !u!114 &5402327540633634249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6605642752339109594}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3acc6155f93954d438ab3c3e7379df83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolPause: 0
+  isPatrolling: 0
+  enemyHealth: {fileID: 0}
+  deathAttacks: {fileID: 0}
+  walkSpeed: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  facingRight: 0
+  groundCheckPos: {fileID: 0}
+  alerted: 0
 --- !u!114 &6280586754819868124
 MonoBehaviour:
   m_ObjectHideFlags: 0

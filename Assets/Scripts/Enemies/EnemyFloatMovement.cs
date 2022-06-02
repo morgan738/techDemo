@@ -9,7 +9,7 @@ public class EnemyFloatMovement : MonoBehaviour
     [HideInInspector] public float patrolPause;
     [HideInInspector] public bool isPatrolling;
     [HideInInspector] public EnemyHealthManager enemyHealth;
-    [HideInInspector] public DeathAttacks deathAttacks;
+    
 
     //declare public variables visible in editor + private variables
     public float walkSpeed;
@@ -93,7 +93,7 @@ public class EnemyFloatMovement : MonoBehaviour
 
         if (alerted)
         {
-            rigidbody2D.velocity = new Vector2(enemyDir.x * 5f, enemyDir.y * 5f);
+            rigidbody2D.velocity = new Vector2(enemyDir.x * 4f, enemyDir.y * 4f);
         }
         if (!alerted)
         {
@@ -110,7 +110,7 @@ public class EnemyFloatMovement : MonoBehaviour
             }
             else if (patrolPause <= 0)
             {
-                patrolPause = 5f;
+                patrolPause = 2f;
             }
             Flip();
         }

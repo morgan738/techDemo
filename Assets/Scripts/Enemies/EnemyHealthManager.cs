@@ -27,6 +27,7 @@ public class EnemyHealthManager : MonoBehaviour
     private GameObject player;
     private Vector3 enemyDir;
     private EnemyAIMovement enemyAIMovement;
+    private EnemyFloatMovement enemyFloatMovement;
 
 
 
@@ -40,6 +41,7 @@ public class EnemyHealthManager : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         enemyAIMovement = GetComponent<EnemyAIMovement>();
+        enemyFloatMovement = GetComponent<EnemyFloatMovement>();
 
     }
 
@@ -168,12 +170,12 @@ public class EnemyHealthManager : MonoBehaviour
 
 
         var projection = Vector3.Dot(enemyDir, transform.right);
-        if (projection < 0 && enemyAIMovement.facingRight)
+        if (projection < 0 && (enemyAIMovement.facingRight || enemyFloatMovement.facingRight))
         {
             Debug.Log("Left");
             enemyAIMovement.Flip();
         }
-        if (projection > 0 && !enemyAIMovement.facingRight)
+        if (projection > 0 && (!enemyAIMovement.facingRight || !enemyFloatMovement.facingRight))
         {
             Debug.Log("right");
             enemyAIMovement.Flip();
